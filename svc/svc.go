@@ -10,9 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"code.google.com/p/go-charset/charset"
-	// _ is ok here ;)
-	_ "code.google.com/p/go-charset/data"
+	"golang.org/x/net/html/charset"
 )
 
 const (
@@ -113,7 +111,7 @@ func GetData(file string, code string) (Query, error) {
 	cData := bytes.NewReader(currencyData)
 
 	decoder := xml.NewDecoder(cData)
-	decoder.CharsetReader = charset.NewReader
+	decoder.CharsetReader = charset.NewReaderLabel
 	err = decoder.Decode(&q)
 
 	res := q

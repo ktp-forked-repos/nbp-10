@@ -18,7 +18,7 @@ func RegisterHandlers() *httprouter.Router {
 	rt := httprouter.New()
 	rt.GET("/:date/:type/:code", errorHandler(IndexHandler))
 
-	rt.NotFound = ntHandler{}
+	rt.NotFound = ntHandler
 
 	fmt.Println("Running on: http://localhost:" + os.Getenv("PORT"))
 	return rt
@@ -118,11 +118,8 @@ func handleOutput(w http.ResponseWriter, code int, data interface{}) {
 	if err := json.NewEncoder(w).Encode(res); err != nil {
 		log.Fatal(err)
 	}
-
 }
 
-type ntHandler struct{}
-
-func (n ntHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func ntHandler(w http.ResponseWriter, r *http.Request) {
 	handleOutput(w, http.StatusNotFound, "The resource you're looking was not found")
 }
